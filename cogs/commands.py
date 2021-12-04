@@ -1,4 +1,5 @@
 import disnake
+from disnake import embeds
 from disnake.ext import commands
 
 
@@ -6,6 +7,7 @@ class Utils(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.bot.remove_command("help")
 
     @commands.command()
     async def say(self, ctx, *, text):
@@ -48,6 +50,16 @@ class Utils(commands.Cog):
         else:
             return await ctx.reply(f"Пользователь {user} не находится в бане!")
 
+    @commands.command()
+    async def help(self, ctx):
+        embed = disnake.Embed(title="Команды")
 
+        for cog in self.bot.cogs.values():
+            embed.add_field(name=cog.name,
+                            value="\n".join([f"{ctx.prefix}{cmd.qualified_name} {cmd.signature}" for cmd in cog.walk_commands()]))
+
+        return await ctx.reply(embed=embed)
+
+        
 def setup(bot):
     bot.add_cog(Utils(bot))
