@@ -55,7 +55,7 @@ class Utils(commands.Cog):
         embed = disnake.Embed(title="Команды")
 
         for cog in self.bot.cogs.values():
-            if len(cog.walk_commands()) != 0:
+            if len(cog.commands) != 0:
                 embed.add_field(name=cog.name,
                                 value="\n".join([f"{ctx.prefix}{cmd.qualified_name} {cmd.signature}" for cmd in cog.walk_commands()]))
 
