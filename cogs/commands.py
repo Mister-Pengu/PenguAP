@@ -57,7 +57,7 @@ class Utils(commands.Cog):
         for command in self.bot.commands:
             embed.add_field(name=command.name, value=f"**{command.description}**")
             
-        return ctx.reply(embed=embed)
+        return await ctx.reply(embed=embed)
 
 
 
