@@ -9,18 +9,18 @@ class Utils(commands.Cog):
         self.bot = bot
         self.bot.remove_command("help")
 
-    @commands.command()
+    @commands.command(description="Сообщение от лица бота")
     async def say(self, ctx, *, text):
         await ctx.reply(text)
     
-    @commands.command()
+    @commands.command(description="Очистить чат")
     @commands.has_permissions(manage_messages=True)
     async def clear(self, ctx, amount = 1):
         amount = amount + 1
         await ctx.channel.purge(limit=amount)
         return await ctx.send(f"Очищено {amount - 1} сообщений!")
       
-    @commands.command()
+    @commands.command(description="Кик участника")
     @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, user: disnake.User=None, *, reason = "Причина не указана!"):
         if user is not None:
@@ -29,7 +29,7 @@ class Utils(commands.Cog):
         else:
             return await ctx.reply("Не указан пользователь!")
     
-    @commands.command()
+    @commands.command(description="Бан участника")
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, user: disnake.User=None, *, reason="Причина не указана!"):
         if user is not None:
@@ -38,7 +38,7 @@ class Utils(commands.Cog):
         else:
             return await ctx.reply("Не указан пользователь!")
     
-    @commands.command()
+    @commands.command(description="Разбан участника")
     @commands.has_permissions(ban_members=True)
     async def unban(self, ctx, user: disnake.User):
         banned_users = await ctx.guild.bans()
@@ -50,16 +50,15 @@ class Utils(commands.Cog):
         else:
             return await ctx.reply(f"Пользователь {user} не находится в бане!")
 
-    @commands.command()
+    @commands.command(description="Помощь")
     async def help(self, ctx):
-        embed = disnake.Embed(title="Команды")
+        embed = disnake.Embed(title="Команды", color=disnake.Colour.blurple())
 
-        for cog in self.bot.cogs.values():
-            if len(cog.get_commands()) != 0:
-                embed.add_field(name=cog.qualified_name,
-                                value="\n".join([f"{ctx.prefix}{cmd.qualified_name} {cmd.signature}" for cmd in cog.walk_commands()]))
+        for command in self.bot.commands:
+            embed.add_field(name=command.name, value=f"**{command.description}**")
+            
+        return ctx.reply(embed=embed)
 
-        return await ctx.reply(embed=embed)
 
 
 def setup(bot):
