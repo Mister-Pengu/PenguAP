@@ -56,10 +56,10 @@ class Utils(commands.Cog):
 
         for cog in self.bot.cogs.values():
             embed.add_field(name=cog.name,
-                            value="\n".join([f"{ctx.prefix}{cmd.qualified_name} {cmd.signature}" for cmd in cog.walk_commands()]))
+                            value="\n".join([f"{ctx.prefix}{cmd.qualified_name} {cmd.signature}" for cmd in cog.walk_commands() if len(cog.walk_commands()) != 0]))
 
         return await ctx.reply(embed=embed)
 
-        
+
 def setup(bot):
     bot.add_cog(Utils(bot))
