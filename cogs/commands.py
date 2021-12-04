@@ -40,7 +40,13 @@ class Utils(commands.Cog):
     @commands.has_permissions(ban_members=True)
     async def unban(self, ctx, user: disnake.User):
         banned_users = await ctx.guild.bans()
-        user = disnake.utils.get(banned_users, )
+        banned_user = disnake.utils.get(banned_users, user=user)
+
+        if banned_user is not None:
+            await ctx.guild.unban(user=user)
+            return await ctx.send(f"Пользовать {user.mention} был разбанен!")
+        else:
+            return await ctx.reply(f"Пользователь {user} не находится в бане!")
 
 
 def setup(bot):
