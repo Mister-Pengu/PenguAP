@@ -37,7 +37,7 @@ class Utils(commands.Cog):
             return await ctx.send(f"Пользовать {user.mention} был забанен по причине **{reason}**")
         else:
             return await ctx.reply("Не указан пользователь!")
-    
+
     @commands.command(description="Разбан участника")
     @commands.has_permissions(ban_members=True)
     async def unban(self, ctx, user: disnake.User):
@@ -56,7 +56,7 @@ class Utils(commands.Cog):
 
         for command in self.bot.commands:
             embed.add_field(name=command.name, value=f"**{command.description}**")
-            
+
         return await ctx.reply(embed=embed)
 
 
